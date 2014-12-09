@@ -2,40 +2,43 @@
 # - dir /usr/include/KF5 not packaged
 # /usr/share/kf5 not packaged
 # Conflict /usr/bin/kactivitymanagerd
-%define         _state          stable
-%define		orgname		kactivities
+%define		kdeframever	5.4
+%define		qtver		5.3.2
+%define		kfname		kactivities
 
 Summary:	Core components for the KDE's Activities Activity Manager
-Name:		kf5-%{orgname}
-Version:	5.0.0
+Name:		kf5-%{kfname}
+Version:	5.4.0
 Release:	0.1
 License:	LGPL v2.1+
 Group:		X11/Libraries
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/frameworks/%{version}/%{orgname}-%{version}.tar.xz
-# Source0-md5:	1e5f33114f752eba2da71665c2e10696
+Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
+# Source0-md5:	b2f1c2952a94a5fe2dfd27e93dcf725c
 URL:		http://www.kde.org/
-BuildRequires:	Qt5Core-devel
-BuildRequires:	Qt5DBus-devel
-BuildRequires:	Qt5Gui-devel
-BuildRequires:	Qt5Network-devel >= 5.3.1
-BuildRequires:	Qt5Qml-devel
-BuildRequires:	Qt5Sql-devel
-BuildRequires:	Qt5Test-devel
-BuildRequires:	Qt5Widgets-devel
-BuildRequires:	Qt5Xml-devel >= 5.2.0
+BuildRequires:	Qt5Core-devel >= %{qtver}
+BuildRequires:	Qt5DBus-devel >= %{qtver}
+BuildRequires:	Qt5Gui-devel >= %{qtver}
+BuildRequires:	Qt5Network-devel >= %{qtver}
+BuildRequires:	Qt5Qml-devel >= %{qtver}
+BuildRequires:	Qt5Sql-devel >= %{qtver}
+BuildRequires:	Qt5Test-devel >= %{qtver}
+BuildRequires:	Qt5Widgets-devel >= %{qtver}
+BuildRequires:	Qt5Xml-devel >= %{qtver}
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	gettext-devel
 BuildRequires:	kf5-attica-devel >= %{version}
-BuildRequires:	kf5-extra-cmake-modules >= 1.0.0
+BuildRequires:	kf5-extra-cmake-modules >= 1.4.0
 BuildRequires:	kf5-kauth-devel >= %{version}
 BuildRequires:	kf5-kbookmarks-devel >= %{version}
+BuildRequires:	kf5-kcmutils-devel >= %{version}
 BuildRequires:	kf5-kcodecs-devel >= %{version}
 BuildRequires:	kf5-kcompletion-devel >= %{version}
 BuildRequires:	kf5-kconfig-devel >= %{version}
 BuildRequires:	kf5-kconfigwidgets-devel >= %{version}
 BuildRequires:	kf5-kcoreaddons-devel >= %{version}
 BuildRequires:	kf5-kdbusaddons-devel >= %{version}
+BuildRequires:	kf5-kdeclarative-devel >= %{version}
 BuildRequires:	kf5-kglobalaccel-devel >= %{version}
 BuildRequires:	kf5-kguiaddons-devel >= %{version}
 BuildRequires:	kf5-ki18n-devel >= %{version}
@@ -65,36 +68,25 @@ or as an activity manager. Workspace Plugins for KDE workspace to
 easier integrate activities (KIO, etc.)
 
 %package devel
-Summary:	Header files for %{orgname} development
-Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{orgname}
+Summary:	Header files for %{kfname} development
+Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kfname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Header files for %{orgname} development.
+Header files for %{kfname} development.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe dla programistów używających %{orgname}.
+Pliki nagłówkowe dla programistów używających %{kfname}.
 
 %prep
-%setup -q -n %{orgname}-%{version}
+%setup -q -n %{kfname}-%{version}
 
 %build
 install -d build
 cd build
 %cmake \
-	-DBIN_INSTALL_DIR=%{_bindir} \
-	-DKCFG_INSTALL_DIR=%{_datadir}/config.kcfg \
-	-DPLUGIN_INSTALL_DIR=%{qt5dir}/plugins \
-	-DQT_PLUGIN_INSTALL_DIR=%{qt5dir}/plugins \
-	-DQML_INSTALL_DIR=%{qt5dir}/qml \
-	-DIMPORTS_INSTALL_DIR=%{qt5dirs}/imports \
-	-DSYSCONF_INSTALL_DIR=%{_sysconfdir} \
-	-DLIBEXEC_INSTALL_DIR=%{_libexecdir} \
-	-DKF5_LIBEXEC_INSTALL_DIR=%{_libexecdir} \
-	-DKF5_INCLUDE_INSTALL_DIR=%{_includedir} \
-	-DECM_MKSPECS_INSTALL_DIR=%{qt5dir}/mkspecs/modules \
-	-D_IMPORT_PREFIX=%{_prefix} \
+	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	../
 %{__make}
 
@@ -104,7 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build/ install \
         DESTDIR=$RPM_BUILD_ROOT
 
-%find_lang %{orgname}5
+%find_lang %{kfname}5
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -112,19 +104,37 @@ rm -rf $RPM_BUILD_ROOT
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%files -f %{orgname}5.lang
+%files -f %{kfname}5.lang
 %defattr(644,root,root,755)
 %doc README.md
 %attr(755,root,root) %{_bindir}/kactivitymanagerd
 %attr(755,root,root) %ghost %{_libdir}/libKF5Activities.so.5
-%attr(755,root,root) %{_libdir}/libKF5Activities.so.5.0.0
+%attr(755,root,root) %{_libdir}/libKF5Activities.so.5.4.0
+%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd_fileitem_linking_plugin.so
+%dir %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_activitytemplates.so
+%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_globalshortcuts.so
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_slc.so
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_sqlite.so
-%{qt5dir}/qml/org/kde/activities/README
-%attr(755,root,root) %{qt5dir}/qml/org/kde/activities/libkactivitiesextensionplugin.so
+%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_virtualdesktopswitch.so
+%attr(755,root,root) %{qt5dir}/plugins/kcm_activities.so
+%attr(755,root,root) %{qt5dir}/plugins/kio_activities.so
+%dir %{qt5dir}/qml/org/kde/activities
 %{qt5dir}/qml/org/kde/activities/qmldir
+%attr(755,root,root) %{qt5dir}/qml/org/kde/activities/libkactivitiesextensionplugin.so
+%dir %{_datadir}/kf5/kactivitymanagerd
+%dir %{_datadir}/kf5/kactivitymanagerd/workspace
+%dir %{_datadir}/kf5/kactivitymanagerd/workspace/settings
+%{_datadir}/kf5/kactivitymanagerd/workspace/settings/BlacklistApplicationView.qml
+%{_datadir}/kservices5/activities.protocol
 %{_datadir}/kservices5/kactivitymanagerd.desktop
+%{_datadir}/kservices5/kactivitymanagerd_fileitem_linking_plugin.desktop
+%{_datadir}/kservices5/kactivitymanagerd-plugin-activitytemplates.desktop
+%{_datadir}/kservices5/kactivitymanagerd-plugin-globalshortcuts.desktop
+%{_datadir}/kservices5/kactivitymanagerd-plugin-slc.desktop
+%{_datadir}/kservices5/kactivitymanagerd-plugin-sqlite.desktop
+%{_datadir}/kservices5/kactivitymanagerd-plugin-virtualdesktopswitch.desktop
+%{_datadir}/kservices5/kcm_activities.desktop
 %{_datadir}/kservicetypes5/kactivitymanagerd-plugin.desktop
 
 %files devel
