@@ -1,19 +1,17 @@
 # TODO:
-# - dir /usr/include/KF5 not packaged
-# /usr/share/kf5 not packaged
 # Conflict /usr/bin/kactivitymanagerd
-%define		kdeframever	5.4
+%define		kdeframever	5.10
 %define		qtver		5.3.2
 %define		kfname		kactivities
 
 Summary:	Core components for the KDE's Activities Activity Manager
 Name:		kf5-%{kfname}
-Version:	5.4.0
-Release:	0.1
+Version:	5.10.0
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	b2f1c2952a94a5fe2dfd27e93dcf725c
+# Source0-md5:	8d542381ec2d40deb60d562474bd2960
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
@@ -109,10 +107,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md
 %attr(755,root,root) %{_bindir}/kactivitymanagerd
 %attr(755,root,root) %ghost %{_libdir}/libKF5Activities.so.5
-%attr(755,root,root) %{_libdir}/libKF5Activities.so.5.4.0
+%attr(755,root,root) %{_libdir}/libKF5Activities.so.*.*
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd_fileitem_linking_plugin.so
 %dir %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_activitytemplates.so
+%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_eventspy.so
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_globalshortcuts.so
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_slc.so
 %attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/kactivitymanagerd_plugin_sqlite.so
@@ -130,6 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kservices5/kactivitymanagerd.desktop
 %{_datadir}/kservices5/kactivitymanagerd_fileitem_linking_plugin.desktop
 %{_datadir}/kservices5/kactivitymanagerd-plugin-activitytemplates.desktop
+%{_datadir}/kservices5/kactivitymanagerd-plugin-eventspy.desktop
 %{_datadir}/kservices5/kactivitymanagerd-plugin-globalshortcuts.desktop
 %{_datadir}/kservices5/kactivitymanagerd-plugin-slc.desktop
 %{_datadir}/kservices5/kactivitymanagerd-plugin-sqlite.desktop
