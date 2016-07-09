@@ -1,17 +1,17 @@
 # TODO:
 # Conflict /usr/bin/kactivitymanagerd
-%define		kdeframever	5.19
+%define		kdeframever	5.23
 %define		qtver		5.3.2
 %define		kfname		kactivities
 
 Summary:	Core components for the KDE's Activities Activity Manager
 Name:		kf5-%{kfname}
-Version:	5.19.0
+Version:	5.23.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	b5ceb59e0b354858849c6728d7df2c3d
+# Source0-md5:	85af6c7eab34592872a85c9559ed1b36
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
@@ -54,6 +54,7 @@ BuildRequires:	kf5-sonnet-devel >= %{version}
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Requires:	kf5-dirs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		qt5dir		%{_libdir}/qt5
@@ -94,70 +95,33 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build/ install \
         DESTDIR=$RPM_BUILD_ROOT
 
-%find_lang %{kfname}5
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%files -f %{kfname}5.lang
+%files
 %defattr(644,root,root,755)
 %doc README.md
-%attr(755,root,root) %{_bindir}/kactivitymanagerd
 %attr(755,root,root) %ghost %{_libdir}/libKF5Activities.so.5
 %attr(755,root,root) %{_libdir}/libKF5Activities.so.*.*
-%attr(755,root,root) %{_libdir}/libkactivitymanagerd_plugin.so
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd_fileitem_linking_plugin.so
-%dir %{qt5dir}/plugins/kactivitymanagerd
-%dir %{qt5dir}/plugins/kactivitymanagerd/1
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/1/kactivitymanagerd_plugin_activitytemplates.so
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/1/kactivitymanagerd_plugin_eventspy.so
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/1/kactivitymanagerd_plugin_globalshortcuts.so
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/1/kactivitymanagerd_plugin_runapplication.so
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/1/kactivitymanagerd_plugin_slc.so
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/1/kactivitymanagerd_plugin_sqlite.so
-%attr(755,root,root) %{qt5dir}/plugins/kactivitymanagerd/1/kactivitymanagerd_plugin_virtualdesktopswitch.so
-%attr(755,root,root) %{qt5dir}/plugins/kcm_activities.so
-%attr(755,root,root) %{qt5dir}/plugins/kio_activities.so
 %dir %{qt5dir}/qml/org/kde/activities
 %{qt5dir}/qml/org/kde/activities/qmldir
-%dir %{qt5dir}/qml/org/kde/activities/settings
 
-%attr(755,root,root) %{qt5dir}/qml/org/kde/activities/settings/libkactivitiessettingsplugin.so
-%{qt5dir}/qml/org/kde/activities/settings/qmldir
+#%%attr(755,root,root) %{qt5dir}/qml/org/kde/activities/settings/libkactivitiessettingsplugin.so
+#%%{qt5dir}/qml/org/kde/activities/settings/qmldir
 %attr(755,root,root) %{qt5dir}/qml/org/kde/activities/libkactivitiesextensionplugin.so
-%dir %{_datadir}/kf5/kactivitymanagerd
-%dir %{_datadir}/kf5/kactivitymanagerd/workspace
-%dir %{_datadir}/kf5/kactivitymanagerd/workspace/settings
-%dir %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml
-%dir %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activitiesTab
-%dir %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog
-%dir %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog/components
-%dir %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/privacyTab
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activitiesTab/ActivitiesView.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activitiesTab/main.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog/GeneralTab.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog/OtherTab.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog/components/DialogButtons.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog/components/IconChooser.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog/components/LabeledTextField.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/activityDialog/components/ShortcutChooser.qml
-%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/privacyTab/BlacklistApplicationView.qml
 
 #%%{_datadir}/kf5/kactivitymanagerd/workspace/settings/BlacklistApplicationView.qml
-%{_datadir}/kservices5/activities.protocol
-%{_datadir}/kservices5/kactivitymanagerd.desktop
-%{_datadir}/kservices5/kactivitymanagerd_fileitem_linking_plugin.desktop
+#%%{_datadir}/kservices5/activities.protocol
 #%{_datadir}/kservices5/kactivitymanagerd-plugin-activitytemplates.desktop
 #%{_datadir}/kservices5/kactivitymanagerd-plugin-eventspy.desktop
 #%{_datadir}/kservices5/kactivitymanagerd-plugin-globalshortcuts.desktop
 #%{_datadir}/kservices5/kactivitymanagerd-plugin-slc.desktop
 #%{_datadir}/kservices5/kactivitymanagerd-plugin-sqlite.desktop
 #%{_datadir}/kservices5/kactivitymanagerd-plugin-virtualdesktopswitch.desktop
-%{_datadir}/kservices5/kcm_activities.desktop
-%{_datadir}/kservicetypes5/kactivitymanagerd-plugin.desktop
+#%%{_datadir}/kservices5/kcm_activities.desktop
 
 %files devel
 %defattr(644,root,root,755)
