@@ -1,17 +1,17 @@
 # TODO:
 # Conflict /usr/bin/kactivitymanagerd
-%define		kdeframever	5.56
+%define		kdeframever	5.59
 %define		qtver		5.9.0
 %define		kfname		kactivities
 
 Summary:	Core components for the KDE's Activities Activity Manager
 Name:		kf5-%{kfname}
-Version:	5.56.0
+Version:	5.59.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	73e6b1ddb49999ffad14ea3485bd6121
+# Source0-md5:	a6372bb5b9a87cc90d7a1c61746282fb
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
