@@ -1,17 +1,17 @@
 # TODO:
 # Conflict /usr/bin/kactivitymanagerd
-%define		kdeframever	5.67
+%define		kdeframever	5.79
 %define		qtver		5.9.0
 %define		kfname		kactivities
 
 Summary:	Core components for the KDE's Activities Activity Manager
 Name:		kf5-%{kfname}
-Version:	5.67.0
+Version:	5.79.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	37a1c1995cd80c8c5d53de70f9fe61ed
+# Source0-md5:	aa85d3aa9c57681b61d8330667062e77
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
@@ -109,20 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libKF5Activities.so.*.*
 %dir %{qt5dir}/qml/org/kde/activities
 %{qt5dir}/qml/org/kde/activities/qmldir
-
-#%%attr(755,root,root) %{qt5dir}/qml/org/kde/activities/settings/libkactivitiessettingsplugin.so
-#%%{qt5dir}/qml/org/kde/activities/settings/qmldir
 %attr(755,root,root) %{qt5dir}/qml/org/kde/activities/libkactivitiesextensionplugin.so
-
-#%%{_datadir}/kf5/kactivitymanagerd/workspace/settings/BlacklistApplicationView.qml
-#%%{_datadir}/kservices5/activities.protocol
-#%{_datadir}/kservices5/kactivitymanagerd-plugin-activitytemplates.desktop
-#%{_datadir}/kservices5/kactivitymanagerd-plugin-eventspy.desktop
-#%{_datadir}/kservices5/kactivitymanagerd-plugin-globalshortcuts.desktop
-#%{_datadir}/kservices5/kactivitymanagerd-plugin-slc.desktop
-#%{_datadir}/kservices5/kactivitymanagerd-plugin-sqlite.desktop
-#%{_datadir}/kservices5/kactivitymanagerd-plugin-virtualdesktopswitch.desktop
-#%%{_datadir}/kservices5/kcm_activities.desktop
+%{_datadir}/qlogging-categories5/kactivities.renamecategories
 
 %files devel
 %defattr(644,root,root,755)
