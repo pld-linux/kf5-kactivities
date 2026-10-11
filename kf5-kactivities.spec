@@ -1,6 +1,7 @@
 #
 # Conditional build:
-%bcond_with	tests		# build with tests
+%bcond_with	tests		# test suite
+
 # TODO:
 # Conflict /usr/bin/kactivitymanagerd
 %define		kdeframever	5.116
@@ -8,6 +9,7 @@
 %define		kfname		kactivities
 
 Summary:	Core components for the KDE's Activities Activity Manager
+Summary(pl.UTF-8):	Główne komponenty zarządcy aktywności KDE Activities
 Name:		kf5-%{kfname}
 Version:	5.116.0
 Release:	1
@@ -15,7 +17,7 @@ License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
 # Source0-md5:	303995a8483ad06c9cd7a775691ac610
-URL:		http://www.kde.org/
+URL:		https://kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel >= %{qtver}
@@ -70,6 +72,13 @@ Activity Manager as a consumer, application adding information to them
 or as an activity manager. Workspace Plugins for KDE workspace to
 easier integrate activities (KIO, etc.)
 
+%description -l pl.UTF-8
+Usługa systemowa do zarządzania aktywnościami użytkowników, śledzenia
+wzorców użycia itp., biblioteka KActivities do używania i
+współpracy z zarządcą aktywności w roli konsumenta, aplikacja dodająca
+informacje do konsumentów lub zarządcy aktywności oraz wtyczki
+środowiska roboczego KDE ułatwiające integrację aktywności (KIO itp.).
+
 %package devel
 Summary:	Header files for %{kfname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kfname}
@@ -97,33 +106,33 @@ Pliki nagłówkowe dla programistów używających %{kfname}.
 %ninja_build -C build test
 %endif
 
-
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %ninja_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %doc README.md
-%{_datadir}/qlogging-categories5/kactivities.categories
 %attr(755,root,root) %{_bindir}/kactivities-cli
+%{_libdir}/libKF5Activities.so.*.*
 %ghost %{_libdir}/libKF5Activities.so.5
-%attr(755,root,root) %{_libdir}/libKF5Activities.so.*.*
 %dir %{qt5dir}/qml/org/kde/activities
+%{qt5dir}/qml/org/kde/activities/libkactivitiesextensionplugin.so
 %{qt5dir}/qml/org/kde/activities/qmldir
-%attr(755,root,root) %{qt5dir}/qml/org/kde/activities/libkactivitiesextensionplugin.so
+%{_datadir}/qlogging-categories5/kactivities.categories
 %{_datadir}/qlogging-categories5/kactivities.renamecategories
 
 %files devel
 %defattr(644,root,root,755)
+%{_libdir}/libKF5Activities.so
 %{_includedir}/KF5/KActivities
 %{_libdir}/cmake/KF5Activities
-%{_libdir}/libKF5Activities.so
 %{_pkgconfigdir}/libKActivities.pc
 %{qt5dir}/mkspecs/modules/qt_KActivities.pri
