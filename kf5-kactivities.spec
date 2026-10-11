@@ -5,7 +5,8 @@
 # TODO:
 # Conflict /usr/bin/kactivitymanagerd
 %define		kdeframever	5.116
-%define		qtver		5.15.2
+%define		kf_ver		%{version}
+%define		qt_ver		5.15.2
 %define		kfname		kactivities
 
 Summary:	Core components for the KDE's Activities Activity Manager
@@ -18,49 +19,36 @@ Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
 # Source0-md5:	303995a8483ad06c9cd7a775691ac610
 URL:		https://kde.org/
-BuildRequires:	Qt5Core-devel >= %{qtver}
-BuildRequires:	Qt5DBus-devel >= %{qtver}
-BuildRequires:	Qt5Gui-devel >= %{qtver}
-BuildRequires:	Qt5Network-devel >= %{qtver}
-BuildRequires:	Qt5Qml-devel >= %{qtver}
-BuildRequires:	Qt5Sql-devel >= %{qtver}
-BuildRequires:	Qt5Test-devel >= %{qtver}
-BuildRequires:	Qt5Widgets-devel >= %{qtver}
-BuildRequires:	Qt5Xml-devel >= %{qtver}
-BuildRequires:	boost-devel
+BuildRequires:	Qt5Core-devel >= %{qt_ver}
+BuildRequires:	Qt5DBus-devel >= %{qt_ver}
+BuildRequires:	Qt5Gui-devel >= %{qt_ver}
+BuildRequires:	Qt5Qml-devel >= %{qt_ver}
+BuildRequires:	Qt5Quick-devel >= %{qt_ver}
+BuildRequires:	Qt5Sql-devel >= %{qt_ver}
+%{?with_tests:BuildRequires:	Qt5Test-devel >= %{qt_ver}}
+BuildRequires:	Qt5Widgets-devel >= %{qt_ver}
+BuildRequires:	boost-devel >= 1.49
 BuildRequires:	cmake >= 3.16
 BuildRequires:	gettext-devel
-BuildRequires:	kf5-attica-devel >= %{version}
-BuildRequires:	kf5-extra-cmake-modules >= %{version}
-BuildRequires:	kf5-kauth-devel >= %{version}
-BuildRequires:	kf5-kbookmarks-devel >= %{version}
-BuildRequires:	kf5-kcmutils-devel >= %{version}
-BuildRequires:	kf5-kcodecs-devel >= %{version}
-BuildRequires:	kf5-kcompletion-devel >= %{version}
-BuildRequires:	kf5-kconfig-devel >= %{version}
-BuildRequires:	kf5-kconfigwidgets-devel >= %{version}
-BuildRequires:	kf5-kcoreaddons-devel >= %{version}
-BuildRequires:	kf5-kdbusaddons-devel >= %{version}
-BuildRequires:	kf5-kdeclarative-devel >= %{version}
-BuildRequires:	kf5-kglobalaccel-devel >= %{version}
-BuildRequires:	kf5-kguiaddons-devel >= %{version}
-BuildRequires:	kf5-ki18n-devel >= %{version}
-BuildRequires:	kf5-kiconthemes-devel >= %{version}
-BuildRequires:	kf5-kio-devel >= %{version}
-BuildRequires:	kf5-kitemviews-devel >= %{version}
-BuildRequires:	kf5-kjobwidgets-devel >= %{version}
-BuildRequires:	kf5-kservice-devel >= %{version}
-BuildRequires:	kf5-ktextwidgets-devel >= %{version}
-BuildRequires:	kf5-kwidgetsaddons-devel >= %{version}
-BuildRequires:	kf5-kwindowsystem-devel >= %{version}
-BuildRequires:	kf5-kxmlgui-devel >= %{version}
-BuildRequires:	kf5-solid-devel >= %{version}
-BuildRequires:	kf5-sonnet-devel >= %{version}
+BuildRequires:	kf5-extra-cmake-modules >= %{kf_ver}
+BuildRequires:	kf5-kconfig-devel >= %{kf_ver}
+BuildRequires:	kf5-kcoreaddons-devel >= %{kf_ver}
+%{?with_tests:BuildRequires:	kf5-kwindowsystem-devel >= %{kf_ver}}
+BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	ninja
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Requires:	Qt5Core >= %{qt_ver}
+Requires:	Qt5DBus >= %{qt_ver}
+Requires:	Qt5Gui >= %{qt_ver}
+Requires:	Qt5Qml >= %{qt_ver}
+Requires:	Qt5Quick >= %{qt_ver}
+Requires:	Qt5Sql >= %{qt_ver}
+Requires:	Qt5Widgets >= %{qt_ver}
 Requires:	kf5-dirs
+Requires:	kf5-kconfig >= %{kf_ver}
+Requires:	kf5-kcoreaddons >= %{kf_ver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		qt5dir		%{_libdir}/qt5
@@ -84,6 +72,9 @@ Summary:	Header files for %{kfname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kfname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	Qt5Core-devel >= %{qt_ver}
+Requires:	Qt5DBus-devel >= %{qt_ver}
+Requires:	libstdc++-devel >= 6:4.7
 
 %description devel
 Header files for %{kfname} development.
@@ -119,9 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.md
+%doc MAINTAINER README.md
 %attr(755,root,root) %{_bindir}/kactivities-cli
-%{_libdir}/libKF5Activities.so.*.*
+%{_libdir}/libKF5Activities.so.*.*.*
 %ghost %{_libdir}/libKF5Activities.so.5
 %dir %{qt5dir}/qml/org/kde/activities
 %{qt5dir}/qml/org/kde/activities/libkactivitiesextensionplugin.so
